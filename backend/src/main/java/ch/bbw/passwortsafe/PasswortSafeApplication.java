@@ -1,13 +1,13 @@
-package ch.bbw.passwortsafebackend;
+package ch.bbw.passwortsafe;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PasswortSafeBackendApplication {
+public class PasswortSafeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PasswortSafeBackendApplication.class, args);
+		SpringApplication.run(PasswortSafeApplication.class, args);
 	}
 
 }

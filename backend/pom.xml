@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ch.bbw</groupId>
-	<artifactId>passwort-safe-backend</artifactId>
+	<artifactId>passwort-safe</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>passwort-safe-backend</name>
+	<name>passwort-safe</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>

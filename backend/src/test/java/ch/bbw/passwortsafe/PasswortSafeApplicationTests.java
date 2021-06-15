@@ -1,10 +1,10 @@
-package ch.bbw.passwortsafebackend;
+package ch.bbw.passwortsafe;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PasswortSafeBackendApplicationTests {
+class PasswortSafeApplicationTests {
 
 	@Test
 	void contextLoads() {
