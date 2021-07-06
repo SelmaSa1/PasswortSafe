@@ -24,7 +24,7 @@ public class PasswordController {
     }
 
     @PostMapping("/add")
-    public void update(@RequestParam PasswordCreateTo password) {
+    public void addPassword(@RequestParam PasswordCreateTo password) {
         service.addPassword(password);
     }
 
@@ -33,7 +33,7 @@ public class PasswordController {
         service.getAll();
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deletePassword(@PathVariable Long id) {
         service.deleteById(id);
     }
