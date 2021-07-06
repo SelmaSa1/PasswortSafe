@@ -1,4 +1,12 @@
 package ch.bbw.passwortsafe;
+
+import ch.bbw.passwortsafe.Decrypt;
+import ch.bbw.passwortsafe.Encrypt;
+import ch.bbw.passwortsafe.PasswordCreateTo;
+import ch.bbw.passwortsafe.PasswordTo;
+import ch.bbw.passwortsafe.Password;
+import ch.bbw.passwortsafe.PasswordRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -9,17 +17,17 @@ import java.util.List;
 @Service
 public class PasswordService {
 
-    private final PasswordRepository repository;
+    @Autowired
+    private PasswordRepositoryImpl repository;
 
     private byte[] key;
     private final Decrypt decrypt = new Decrypt();
     private final Encrypt encrypt = new Encrypt();
 
-    public PasswordService(PasswordRepository repository) {
+    public PasswordService() {
         byte[] encoded = "SecretKey123".getBytes();
         SecretKey secretKey = new SecretKeySpec(encoded, "AES");
         this.key = secretKey.getEncoded();
-        this.repository = repository;
     }
 
     public List<PasswordTo> getAll() {
