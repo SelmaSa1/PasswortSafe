@@ -4,8 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface UsersData {
   website: string;
-  name: string;
-  id: number;
+  username: string;
+  password: any;
+  remarks: string;
 }
 @Component({
   selector: 'app-dialog-box',

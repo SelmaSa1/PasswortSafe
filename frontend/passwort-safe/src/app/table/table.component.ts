@@ -5,15 +5,16 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 
 export interface UsersData {
   website: string;
-  name: string;
-  id: number;
+  username: string;
+  password: any;
+  remarks: string;
 }
 
 const ELEMENT_DATA: UsersData[] = [
-  {id: 1560608769632, name: 'Artificial Intelligence', website: 'https://www.google.com'},
-  {id: 1560608796014, name: 'Machine Learning' , website: 'https://www.google.com'},
-  {id: 1560608787815, name: 'Robotic Process Automation' , website: 'https://www.google.com'},
-  {id: 1560608805101, name: 'Blockchain', website: 'https://www.google.com'}
+  {username: 'Sangeerththani Ramesh', password: '', website: 'https://www.google.com', remarks: 'iam so happy'},
+  {username: 'Sangeerththani Ramesh', password: '' , website: 'https://www.google.com', remarks: 'iam so happy'},
+  {username: 'Selma Sahin', password: '' , website: 'https://www.google.com', remarks: 'iam so happy'},
+  {username: 'Selma Sahin', password: '', website: 'https://www.google.com', remarks: 'iam so happy'}
 ];
 
 @Component({
@@ -23,7 +24,7 @@ const ELEMENT_DATA: UsersData[] = [
 })
 export class TableComponent {
 
-  displayedColumns: string[] = ['id', 'name', 'Website', 'action'];
+  displayedColumns: string[] = ['username', 'password', 'website', 'remarks', 'action'];
   dataSource = ELEMENT_DATA;
 
   @ViewChild(MatTable,{static:true}) table: MatTable<any>;
@@ -51,25 +52,29 @@ export class TableComponent {
   addRowData(row_obj){
     var d = new Date();
     this.dataSource.push({
-      id:d.getTime(),
-      name:row_obj.name,
-      website:row_obj.website
+      username:d.getTime(),
+      website:row_obj.website,
+      username:row_obj.username,
+      password:row_obj.password, 
+      remarks:row_obj.remarks,
     });
     this.table.renderRows();
     
   }
   updateRowData(row_obj){
     this.dataSource = this.dataSource.filter((value,key)=>{
-      if(value.id == row_obj.id){
-        value.name = row_obj.name;
+      if(value.username == row_obj.username){
+        value.password = row_obj.password;
         value.website = row_obj.website;
+        value.remarks = row_obj.remarks;
+
       }
       return true;
     });
   }
   deleteRowData(row_obj){
     this.dataSource = this.dataSource.filter((value,key)=>{
-      return value.id != row_obj.id;
+      return value.username != row_obj.username;
     });
   }
 }
