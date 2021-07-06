@@ -9,6 +9,7 @@ import ch.bbw.passwortsafe.PasswordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.ArrayList;
@@ -17,17 +18,21 @@ import java.util.List;
 @Service
 public class PasswordService {
 
-    @Autowired
-    private PasswordRepositoryImpl repository;
+    private final PasswordRepository repository;
 
     private byte[] key;
     private final Decrypt decrypt = new Decrypt();
     private final Encrypt encrypt = new Encrypt();
 
-    public PasswordService() {
+    @Autowired
+    public PasswordService(PasswordRepository passwordRepository) {
+        this.repository = passwordRepository;
         byte[] encoded = "SecretKey123".getBytes();
         SecretKey secretKey = new SecretKeySpec(encoded, "AES");
         this.key = secretKey.getEncoded();
+        repository.save(new Password("google", "user", encrypt.encrypt("superSecret123".getBytes(), key), "note"));
+        repository.save(new Password("teams", "user1", encrypt.encrypt("Secret44!".getBytes(), key)));
+        repository.save(new Password("word", "user2", encrypt.encrypt("sAfePAssword33+".getBytes(), key), "note note note"));
     }
 
     public List<PasswordTo> getAll() {

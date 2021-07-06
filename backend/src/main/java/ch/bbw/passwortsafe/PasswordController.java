@@ -1,5 +1,6 @@
 package ch.bbw.passwortsafe;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +11,8 @@ public class PasswordController {
 
     private final PasswordService service;
 
-    PasswordController(PasswordService service) {
+    @Autowired
+    public PasswordController(PasswordService service) {
         this.service = service;
     }
 

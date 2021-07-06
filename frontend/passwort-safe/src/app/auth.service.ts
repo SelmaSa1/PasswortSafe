@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { AuthService } from './auth.service';
+import {HttpServiceService} from "./http-service.service";
 
 
 @Injectable({
@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class AuthService implements CanActivate  {
 
-  constructor(public authService: AuthService, public router: Router) {}
+  constructor(public authService: AuthService, public router: Router, private httpservie: HttpServiceService) {}
 
   async canActivate(): Promise<boolean> {
     if (!await this.authService.checkAuthenticated()) {
@@ -17,6 +17,11 @@ export class AuthService implements CanActivate  {
     }
     return true;
   }
+
+  async login(username: any, password: any) {
+    const userPasswordCredentials = UserPasswordCredentials(username, password);
+    this.httpservie.login(userPasswordCredentials)
+  }
 }
 
 
@@ -24,4 +29,3 @@ export class AuthService implements CanActivate  {
 
 
 
- 

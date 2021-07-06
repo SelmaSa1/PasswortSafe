@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
 
 export interface UsersData {
   website: string;
@@ -55,11 +55,11 @@ export class TableComponent {
       username:d.getTime(),
       website:row_obj.website,
       username:row_obj.username,
-      password:row_obj.password, 
+      password:row_obj.password,
       remarks:row_obj.remarks,
     });
     this.table.renderRows();
-    
+
   }
   updateRowData(row_obj){
     this.dataSource = this.dataSource.filter((value,key)=>{
