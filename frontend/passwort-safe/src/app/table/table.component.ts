@@ -23,7 +23,6 @@ export class TableComponent implements OnInit {
   }
 
 
-
   ngOnInit(): void {
     this.httpService.getAllPassword().subscribe(data => {
       console.log(data, 'data');
@@ -47,7 +46,7 @@ export class TableComponent implements OnInit {
   }
 
   addRowData(password) {
-    this.httpService.createPassword(password).subscribe(() => {
+    this.httpService.createPassword(password.data).subscribe(() => {
       this.httpService.getAllPassword().subscribe(data => {
         this.dataSource.splice(0, this.dataSource.length);
         this.dataSource.push(...data);
@@ -59,7 +58,6 @@ export class TableComponent implements OnInit {
   }
 
   deletePassword(id: any) {
-    console.log('delete');
     this.httpService.deletePassword(id).subscribe(() => {
       this.httpService.getAllPassword().subscribe(data => {
         this.dataSource.splice(0, this.dataSource.length);
@@ -69,6 +67,10 @@ export class TableComponent implements OnInit {
         console.log(error);
       }
     })
+  }
+
+  logout() {
+    this.httpService.logout()
   }
 }
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 public class PasswordController {
 
@@ -21,7 +21,7 @@ public class PasswordController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<PasswordTo> login(@RequestBody UserPasswordCredentials userPasswordCredentials) {
         if (login.isPasswordMatching(userPasswordCredentials.getPassword()) && login.isUserMatching(userPasswordCredentials.getUser())) {
             return service.getAll();
@@ -31,14 +31,12 @@ public class PasswordController {
 
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity addPassword(@RequestBody PasswordCreateTo password) {
-        System.out.println("New Password " + password.getRemarks());
         service.addPassword(password);
         return ResponseEntity.ok(password);
     }
 
     @GetMapping("/getAll")
     public List<PasswordTo> getAll() {
-        System.out.println("getall");
         return service.getAll();
     }
 

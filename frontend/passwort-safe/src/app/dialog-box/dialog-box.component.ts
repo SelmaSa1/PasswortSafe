@@ -1,6 +1,5 @@
-
-import { Component, Inject, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Component, Inject, Optional} from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {PasswordCreateTo} from "../PasswordCreateTo";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -9,10 +8,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   templateUrl: './dialog-box.component.html',
   styleUrls: ['./dialog-box.component.css']
 })
-export class DialogBoxComponent  {
+export class DialogBoxComponent {
   form: FormGroup;
-  action:string;
-  local_data:any;
+  action: string;
+  local_data: any;
 
   constructor(
     public dialogRef: MatDialogRef<DialogBoxComponent>,
@@ -30,7 +29,7 @@ export class DialogBoxComponent  {
     this.action = this.local_data.action;
   }
 
-  doAction(){
+  doAction() {
     if (this.form.valid) {
       const newPassword: PasswordCreateTo = {
         website: this.form.get('website')?.value,
@@ -42,8 +41,8 @@ export class DialogBoxComponent  {
     }
   }
 
-  closeDialog(){
-    this.dialogRef.close({event:'Cancel'});
+  closeDialog() {
+    this.dialogRef.close({event: 'Cancel'});
   }
 }
 

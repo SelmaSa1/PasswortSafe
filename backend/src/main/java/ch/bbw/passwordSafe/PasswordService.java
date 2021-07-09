@@ -55,7 +55,6 @@ public class PasswordService {
 	}
 
 	public void addPassword(PasswordCreateTo passwordCreate) {
-		System.out.println(passwordCreate.getPassword());
 		Password password = new Password(
 				passwordCreate.getWebsite(),
 				passwordCreate.getUsername(),

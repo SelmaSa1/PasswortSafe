@@ -10,6 +10,8 @@ import {PasswordCreateTo} from "./PasswordCreateTo";
   providedIn: 'root'
 })
 export class HttpServiceService {
+  loggedIn: boolean;
+  private options = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
 
   constructor(private httpClient: HttpClient, private router: Router) {
   }
@@ -24,10 +26,11 @@ export class HttpServiceService {
   }
 
   login(userPassword: UserPasswordCredentials) {
-    const headers = this.getHeaders();
-    this.httpClient.post('http://localhost:8080/login', userPassword, {headers: headers}).subscribe((data) => {
-      console.log()
+    const json = JSON.stringify(userPassword);
+    console.log(json);
+    this.httpClient.post('http://localhost:8080/login', json, this.options).subscribe((data) => {
       if (data) {
+        this.loggedIn = true;
         this.router.navigate(['/dashboard']);
       }
     }, (error) => {
@@ -36,18 +39,30 @@ export class HttpServiceService {
   }
 
   getAllPassword(): Observable<Password[]> {
-    const headers = this.getHeaders();
-    return this.httpClient.get<Password[]>('http://localhost:8080/getAll', {headers: headers});
+    if (this.loggedIn) {
+      const headers = this.getHeaders();
+      return this.httpClient.get<Password[]>('http://localhost:8080/getAll', {headers: headers});
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   deletePassword(passwordId: number) {
-    const headers = this.getHeaders();
-    return this.httpClient.delete<Password>('http://localhost:8080/delete/' + passwordId, {headers: headers});
+    if (this.loggedIn) {
+      const headers = this.getHeaders();
+      return this.httpClient.delete<Password>('http://localhost:8080/delete/' + passwordId, {headers: headers});
+    }
   }
 
   createPassword(passwordCreate: PasswordCreateTo) {
-    const headers = this.getHeaders();
-
-    return this.httpClient.post('http://localhost:8080/add', JSON.stringify(passwordCreate), {headers: headers});
+    if (this.loggedIn) {
+      const json = JSON.stringify(passwordCreate);
+      return this.httpClient.post('http://localhost:8080/add', json , this.options);
+    }
   };
+
+  logout() {
+    this.loggedIn = false;
+    this.router.navigate(['/login']);
+  }
 }

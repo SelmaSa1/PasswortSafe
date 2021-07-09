@@ -1,4 +1,4 @@
-export interface PasswordCreateTo {
+export class PasswordCreateTo {
   website: string;
   username: string;
   password: string;
