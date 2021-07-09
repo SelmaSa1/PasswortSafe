@@ -1,12 +1,13 @@
 package ch.bbw.passwordSafe;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class PasswordController {
 
@@ -28,10 +29,11 @@ public class PasswordController {
         return null;
     }
 
-    @PostMapping("/add")
-    public void addPassword(@RequestBody PasswordCreateTo password) {
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity addPassword(@RequestBody PasswordCreateTo password) {
         System.out.println("New Password " + password.getRemarks());
         service.addPassword(password);
+        return ResponseEntity.ok(password);
     }
 
     @GetMapping("/getAll")
@@ -41,7 +43,8 @@ public class PasswordController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deletePassword(@PathVariable Long id) {
+    public ResponseEntity deletePassword(@PathVariable Long id) {
         service.deleteById(id);
+        return ResponseEntity.ok(id);
     }
 }

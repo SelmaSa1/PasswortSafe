@@ -18,6 +18,7 @@ export class HttpServiceService {
     const headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', '*');
+    headers.set('Content-Type', 'application/json');
     headers.set('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Content-Type, Accept, Accept-Language, Origin, User-Agent');
     return headers;
   }
@@ -47,6 +48,6 @@ export class HttpServiceService {
   createPassword(passwordCreate: PasswordCreateTo) {
     const headers = this.getHeaders();
 
-    return this.httpClient.post('http://localhost:8080/add', passwordCreate, {headers: headers});
+    return this.httpClient.post('http://localhost:8080/add', JSON.stringify(passwordCreate), {headers: headers});
   };
 }
