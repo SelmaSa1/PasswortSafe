@@ -1,21 +1,21 @@
-<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<h1 mat-dialog-title>Neues Passwort</h1>
 <div mat-dialog-content>
-  <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
-    <input placeholder="{{action}} website" matInput [(ngModel)]="local_data.website">
-    <input placeholder="{{action}} username" matInput [(ngModel)]="local_data.username">
-    <input placeholder="{{action}} password" matInput [(ngModel)]="local_data.password">
-    <input placeholder="{{action}} remarks" matInput [(ngModel)]="local_data.remarks">
-
-  </mat-form-field>
-  <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.website}}</b>?
-    Sure to delete <b>{{local_data.username}}</b>?
-    Sure to delete <b>{{local_data.password}}</b>?
-    Sure to delete <b>{{local_data.remarks}}</b>?
-
-  </ng-template>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput placeholder="Website" formControlName="website" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="User" formControlName="username" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Notizen" formControlName="remarks" required>
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="doAction()">{{action}}</button>
-  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-button (click)="doAction()"mat-flat-button color="primary">{{action}}</button>
 </div>

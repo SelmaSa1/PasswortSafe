@@ -1,81 +1,74 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatTable } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTable} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
 import {DialogBoxComponent} from "../dialog-box/dialog-box.component";
+import {HttpServiceService} from "../http-service.service";
+import {Password} from "../Password";
 
-export interface UsersData {
-  website: string;
-  username: string;
-  password: any;
-  remarks: string;
-}
-
-const ELEMENT_DATA: UsersData[] = [
-  {username: 'Sangeerththani Ramesh', password: '', website: 'https://www.google.com', remarks: 'iam so happy'},
-  {username: 'Sangeerththani Ramesh', password: '' , website: 'https://www.google.com', remarks: 'iam so happy'},
-  {username: 'Selma Sahin', password: '' , website: 'https://www.google.com', remarks: 'iam so happy'},
-  {username: 'Selma Sahin', password: '', website: 'https://www.google.com', remarks: 'iam so happy'}
-];
+const ELEMENT_DATA: Password[] = [];
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
 
   displayedColumns: string[] = ['username', 'password', 'website', 'remarks', 'action'];
   dataSource = ELEMENT_DATA;
 
-  @ViewChild(MatTable,{static:true}) table: MatTable<any>;
+  @ViewChild(MatTable, {static: true}) table: MatTable<any>;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private httpService: HttpServiceService) {
+  }
 
-  openDialog(action,obj) {
+
+
+  ngOnInit(): void {
+    this.httpService.getAllPassword().subscribe(data => {
+      console.log(data, 'data');
+      this.dataSource.splice(0, this.dataSource.length);
+      this.dataSource.push(...data);
+      this.table.renderRows();
+    })
+  }
+
+  openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',
-      data:obj
+      width: '350px',
+      data: obj
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result.event == 'Add'){
-        this.addRowData(result.data);
-      }else if(result.event == 'Update'){
-        this.updateRowData(result.data);
-      }else if(result.event == 'Delete'){
-        this.deleteRowData(result.data);
+      console.log(result);
+      this.addRowData(result);
+    });
+  }
+
+  addRowData(password) {
+    this.httpService.createPassword(password).subscribe(() => {
+      this.httpService.getAllPassword().subscribe(data => {
+        this.dataSource.splice(0, this.dataSource.length);
+        this.dataSource.push(...data);
+        this.table.renderRows();
+      })
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  deletePassword(id: any) {
+    console.log('delete');
+    this.httpService.deletePassword(id).subscribe(() => {
+      this.httpService.getAllPassword().subscribe(data => {
+        this.dataSource.splice(0, this.dataSource.length);
+        this.dataSource.push(...data);
+        this.table.renderRows();
+      }), (error) => {
+        console.log(error);
       }
-    });
-  }
-
-  addRowData(row_obj){
-    var d = new Date();
-    this.dataSource.push({
-      username:d.getTime(),
-      website:row_obj.website,
-      username:row_obj.username,
-      password:row_obj.password,
-      remarks:row_obj.remarks,
-    });
-    this.table.renderRows();
-
-  }
-  updateRowData(row_obj){
-    this.dataSource = this.dataSource.filter((value,key)=>{
-      if(value.username == row_obj.username){
-        value.password = row_obj.password;
-        value.website = row_obj.website;
-        value.remarks = row_obj.remarks;
-
-      }
-      return true;
-    });
-  }
-  deleteRowData(row_obj){
-    this.dataSource = this.dataSource.filter((value,key)=>{
-      return value.username != row_obj.username;
-    });
+    })
   }
 }
 

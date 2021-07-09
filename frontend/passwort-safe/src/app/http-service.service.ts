@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {UserPasswordCredentials} from "./UserPasswordCredentials";
+import {Password} from "./Password";
+import {PasswordCreateTo} from "./PasswordCreateTo";
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +14,19 @@ export class HttpServiceService {
   constructor(private httpClient: HttpClient, private router: Router) {
   }
 
-  login(userPassword: UserPasswordCredentials) {
-    return this.httpClient.post('login', userPassword).subscribe((data) => {
-      if (data) {
-        this.loggedIn = true;
+  getHeaders():HttpHeaders {
+    const headers = new HttpHeaders();
+    headers.set('Access-Control-Allow-Origin', '*');
+    headers.set('Access-Control-Allow-Methods', '*');
+    headers.set('Access-Control-Allow-Headers', 'Access-Control-Allow-Origin, Content-Type, Accept, Accept-Language, Origin, User-Agent');
+    return headers;
+  }
 
-        this.setSession(data);
+  login(userPassword: UserPasswordCredentials) {
+    const headers = this.getHeaders();
+    this.httpClient.post('http://localhost:8080/login', userPassword, {headers: headers}).subscribe((data) => {
+      console.log()
+      if (data) {
         this.router.navigate(['/dashboard']);
       }
     }, (error) => {
@@ -25,14 +35,18 @@ export class HttpServiceService {
   }
 
   getAllPassword(): Observable<Password[]> {
-    return this.httpClient.get<Password[]>('get/');
+    const headers = this.getHeaders();
+    return this.httpClient.get<Password[]>('http://localhost:8080/getAll', {headers: headers});
   }
 
-  deletePoll(passwordId: number) {
-    return this.httpClient.delete<Password>('delete/' + passwordId);
+  deletePassword(passwordId: number) {
+    const headers = this.getHeaders();
+    return this.httpClient.delete<Password>('http://localhost:8080/delete/' + passwordId, {headers: headers});
   }
 
-  createPoll(passwordCreate: PasswordCreate) {
-    return this.httpClient.post('add', passwordCreate);
+  createPassword(passwordCreate: PasswordCreateTo) {
+    const headers = this.getHeaders();
+
+    return this.httpClient.post('http://localhost:8080/add', passwordCreate, {headers: headers});
   };
 }

@@ -1,7 +1,7 @@
-class Password {
+export class Password {
   id: number;
   website: string;
-  user: string;
+  username: string;
   password: string;
   remarks: string;
 }

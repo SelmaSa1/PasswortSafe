@@ -1,6 +1,6 @@
-class PasswordCreate {
+export class PasswordCreateTo {
   website: string;
-  user: string;
+  username: string;
   password: string;
   remarks: string;
 }
