@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>H2 Database Test</title>
+</head>
+<body>
+    <h1>H2 Database Test</h1>
+    <p th:each="blubb : ${blubber}">
+        <span th:text="${blubb.name}"></span>
+    </p>
+</body>
+</html>
